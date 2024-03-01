@@ -1,0 +1,492 @@
+basePath: /
+definitions:
+  models.Order:
+    properties:
+      complete:
+        type: boolean
+      id:
+        type: integer
+      petId:
+        type: integer
+      quantity:
+        type: integer
+      shipDate:
+        type: string
+      status:
+        type: string
+    type: object
+  models.Pet:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      token:
+        type: string
+      userStatus:
+        type: integer
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample geogrpc.
+  title: API Title
+  version: "1.0"
+paths:
+  /order:
+    post:
+      consumes:
+      - application/json
+      description: Add a new order to the store
+      parameters:
+      - description: Order to be created
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: order created
+          schema:
+            type: string
+        "400":
+          description: request parsing error
+          schema:
+            type: string
+        "500":
+          description: order creation error
+          schema:
+            type: string
+      summary: Create a new order
+      tags:
+      - order
+  /order/{id}:
+    delete:
+      description: Remove an order from the store by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: order deleted
+          schema:
+            type: string
+        "400":
+          description: id error
+          schema:
+            type: string
+        "417":
+          description: order deletion error
+          schema:
+            type: string
+      summary: Delete an order by its ID
+      tags:
+      - order
+    get:
+      description: Retrieve an order from the store by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Order found
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: id error
+          schema:
+            type: string
+        "417":
+          description: order getting error
+          schema:
+            type: string
+      summary: Get an order by its ID
+      tags:
+      - order
+  /pet:
+    post:
+      consumes:
+      - application/json
+      description: Add a new pet to the store
+      parameters:
+      - description: Pet object that needs to be added
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/models.Pet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: pet created
+          schema:
+            type: string
+        "400":
+          description: 'request parsing error: <error message>'
+          schema:
+            type: string
+        "500":
+          description: 'pet creation error: <error message>'
+          schema:
+            type: string
+      summary: Create a new pet
+      tags:
+      - pets
+    put:
+      consumes:
+      - application/json
+      description: Update an existing pet by its ID
+      parameters:
+      - description: Pet object that needs to be updated
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/models.Pet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: pet updated
+          schema:
+            type: string
+        "400":
+          description: 'request parsing error: <error message>'
+          schema:
+            type: string
+        "500":
+          description: 'pet update error: <error message>'
+          schema:
+            type: string
+      summary: Update an existing pet
+      tags:
+      - pets
+  /pet/{id}:
+    delete:
+      description: Delete a pet by its ID
+      parameters:
+      - description: ID of the pet to delete
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: pet deleted
+          schema:
+            type: string
+        "400":
+          description: id error
+          schema:
+            type: string
+        "417":
+          description: 'pet deletion error: <error message>'
+          schema:
+            type: string
+      summary: Delete pet by ID
+      tags:
+      - pets
+    get:
+      description: Get a single pet by its ID
+      parameters:
+      - description: ID of the pet to get
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Pet'
+        "400":
+          description: id error
+          schema:
+            type: string
+        "417":
+          description: 'pet getting error: <error message>'
+          schema:
+            type: string
+      summary: Get pet by ID
+      tags:
+      - pets
+    put:
+      consumes:
+      - application/json
+      description: Update a pet by its ID
+      parameters:
+      - description: ID of the pet to update
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Pet object that needs to be updated
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/models.Pet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: pet updated
+          schema:
+            type: string
+        "400":
+          description: id error
+          schema:
+            type: string
+        "417":
+          description: 'pet updating error: <error message>'
+          schema:
+            type: string
+      summary: Update pet by ID
+      tags:
+      - pets
+  /pet/findByStatus/{status}:
+    get:
+      description: Get pets by their status
+      parameters:
+      - description: Status of the pet
+        in: path
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Pet'
+        "400":
+          description: empty status error
+          schema:
+            type: string
+        "417":
+          description: 'pet getting error: <error message>'
+          schema:
+            type: string
+      summary: Get pets by status
+      tags:
+      - pets
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided information
+      parameters:
+      - description: User to create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user created successfully
+          schema:
+            type: string
+        "400":
+          description: request parsing error
+          schema:
+            type: string
+        "500":
+          description: user creation error
+          schema:
+            type: string
+      summary: Create a new user
+      tags:
+      - users
+  /users/{username}:
+    delete:
+      description: Delete a user by their username
+      parameters:
+      - description: Username of the user to delete
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Users deleted
+          schema:
+            type: string
+        "400":
+          description: empty name error
+          schema:
+            type: string
+        "417":
+          description: user deletion error
+          schema:
+            type: string
+      summary: Delete a user by username
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update a user's information by their username
+      parameters:
+      - description: Username of the user to update
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Updated user information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Users updated
+          schema:
+            type: string
+        "400":
+          description: request parsing error
+          schema:
+            type: string
+        "417":
+          description: user update error
+          schema:
+            type: string
+      summary: Update a user by username
+      tags:
+      - users
+  /users/createWithArray:
+    post:
+      consumes:
+      - application/json
+      description: Create multiple users from a list
+      parameters:
+      - description: Array of users
+        in: body
+        name: users
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/models.User'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Users created
+          schema:
+            type: string
+        "400":
+          description: request parsing error
+          schema:
+            type: string
+        "500":
+          description: user array creation error
+          schema:
+            type: string
+      summary: Create multiple users
+      tags:
+      - users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a user and return a JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User login succeed
+          schema:
+            type: string
+        "400":
+          description: request parsing error
+          schema:
+            type: string
+        "404":
+          description: login error
+          schema:
+            type: string
+      summary: Login a user
+      tags:
+      - users
+  /users/logout:
+    post:
+      consumes:
+      - application/json
+      description: Invalidate a user's JWT token
+      parameters:
+      - description: JWT token to invalidate
+        in: body
+        name: token
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user logout succeed
+          schema:
+            type: string
+        "400":
+          description: bad token error
+          schema:
+            type: string
+      summary: Logout a user
+      tags:
+      - users
+schemes:
+- http
+swagger: "2.0"

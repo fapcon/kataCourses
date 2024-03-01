@@ -1,0 +1,9 @@
+basePath: /
+host: localhost:1313
+info:
+  contact: {}
+  description: API geogrpc
+  title: swagger API
+  version: "1.0"
+paths: {}
+swagger: "2.0"

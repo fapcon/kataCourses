@@ -1,0 +1,28 @@
+{
+  "swagger": "2.0",
+  "info": {},
+  "paths": {
+    "/api/address/search": {
+      "post": {
+        "description": "getting address",
+        "tags": [
+          "addr"
+        ],
+        "operationId": "RequestAddressSearch",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Query",
+            "name": "query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  }
+}

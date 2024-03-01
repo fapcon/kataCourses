@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  hugo:
+    image: klakegg/hugo:0.101.0-ext-alpine
+    container_name: hugos
+    command: geogrpc
+    entrypoint: hugo
+    volumes:
+      - "./hugo:/src"
+    ports:
+      - "1313:1313"
+    networks:
+        - mylocal
+  app:
+    build: ./proxy
+    container_name: proxys
+    volumes:
+      - "./hugo/content:/app/static"
+    ports:
+      - "8080:8080"
+    networks:
+        - mylocal
+  rpc:
+    build: ./rpc
+    container_name: rpctask
+    ports:
+      - "1234:1234"
+    networks:
+      - mylocal
+  json-rpc:
+    build: ./json-rpc
+    container_name: json-rpctask
+    ports:
+      - "4321:4321"
+    networks:
+      - mylocal
+  grpc:
+    build: ./grpc
+    container_name: grpctask
+    ports:
+      - "50051:50051"
+    networks:
+      - mylocal
+networks:
+    mylocal:
+        driver: bridge
